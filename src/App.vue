@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header/>
+    <Main :cards="cards"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from 'axios';
+import Header from '@/components/Header.vue';
+import Main from '@/components/Section.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Header,
+    Main,
+  },
+  data() {
+      return {
+          cards: []
+      }
+  },
+    created() {
+        axios.get('https://api.themoviedb.org/3/search/movie?api_key=08bc2842c191fdd892778763300bf76e&query=ritorno+al+futuro').then((result) => {
+            this.cards = result.data.results;
+        })
+    }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    // @import "./style/main.scss";
 </style>
