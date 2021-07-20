@@ -4,10 +4,16 @@
           <img v-if="poster_path" :src="getThumbnail()" alt=""/>
           <img v-if="!poster_path" src="../assets/stockImage.jpg" alt=""/>  
           <div class="movie-desc">
-            <h3>{{title || name}}</h3>
-            <h5>{{original_title || original_name}}</h5>
+            <h4>{{title || name}}</h4>
+            <h6>{{original_title || original_name}}</h6>
             <p><flag :iso="countryFlag"/></p>
-            <p>{{vote_average}}</p>
+            <div>
+              <i :class="{fas: starsNum >= 1, far: starsNum < 1}" class="fa-star"></i>
+              <i :class="{fas: starsNum >= 2, far: starsNum < 2}" class="fa-star"></i>
+              <i :class="{fas: starsNum >= 3, far: starsNum < 3}" class="fa-star"></i>
+              <i :class="{fas: starsNum >= 4, far: starsNum < 4}" class="fa-star"></i>
+              <i :class="{fas: starsNum == 5, far: starsNum < 5}" class="fa-star"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -21,6 +27,7 @@
     ko: 'kr',
     ja: 'jp',
   };
+
 export default {
     name: 'Card',
     props: {
@@ -35,6 +42,9 @@ export default {
     computed: {
       countryFlag () {
         return languages[this.original_language] ? languages[this.original_language] : this.original_language;
+      },
+      starsNum () {
+        return Math.round(this.vote_average/2);
       }
     },
     methods: {

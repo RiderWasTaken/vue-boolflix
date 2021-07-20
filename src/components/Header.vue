@@ -17,7 +17,6 @@ export default {
     methods: {
         searchInput () {
             this.$emit ('searchinput', this.movie)
-            console.log('ciao');
         }
     }
 }
