@@ -1,11 +1,12 @@
 <template>
     <div class="card">
         <div class="movie-pic">
-          <img :src="getThumbnail()" alt=""/>
+          <img v-if="poster_path" :src="getThumbnail()" alt=""/>
+          <img v-if="!poster_path" src="../assets/stockImage.jpg" alt=""/>  
           <div class="movie-desc">
-            <h3>{{title}}</h3>
-            <h3>{{original_title}}</h3>
-            <p>{{original_language}}</p>
+            <h3>{{title || name}}</h3>
+            <h5>{{original_title || original_name}}</h5>
+            <p><flag :iso="countryFlag"/></p>
             <p>{{vote_average}}</p>
           </div>
         </div>
@@ -13,28 +14,43 @@
 </template>
 
 <script>
-
+  const languages = {
+    en: 'us',
+    hi: 'in',
+    zh: 'cn',
+    ko: 'kr',
+    ja: 'jp',
+  };
 export default {
     name: 'Card',
     props: {
         poster_path: String,
         title: String,
+        name: String,
         original_title: String,
+        original_name: String,
         original_language: String,
         vote_average: Number
     },
+    computed: {
+      countryFlag () {
+        return languages[this.original_language] ? languages[this.original_language] : this.original_language;
+      }
+    },
     methods: {
+      SearchMoviea () {
+        return
+      },
       getThumbnail () {
-        return 'https://image.tmdb.org/t/p/original/' + this.poster_path; 
+        return 'https://image.tmdb.org/t/p/w500/' + this.poster_path; 
       }
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
       .card {
-    width: 20%;
+    width: 10%;
     background: #000000;
     height: 75%;
     position: relative;
@@ -52,17 +68,14 @@ export default {
     position: absolute;
     top: 0;
     color: #FFF;
-
+    display: none;
   }
 
   .movie-pic img{
     width: 100%;
   }
 
-  .movie-desc {
-    margin-top: 25px;
-    height: 20%;
-    color: #FFF;
-    display: none;
+  .flag-icon {
+    font-size: 30px;
   }
 </style>

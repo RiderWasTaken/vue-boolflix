@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <Header/>
-    <Main :cards="cards"/>
+    <Header @searchinput="searchInput($event)"/>
+    <Main class="text-light" title="Movies" :cards="cards"/>
+    <Main class="text-light" title="TV series" :cards="cardstv"/>
   </div>
 </template>
 
@@ -17,13 +18,37 @@ export default {
   },
   data() {
       return {
-          cards: []
+          cards: [],
+          cardstv: []
       }
   },
-    created() {
-        axios.get('https://api.themoviedb.org/3/search/movie?api_key=08bc2842c191fdd892778763300bf76e&query=ritorno+al+futuro').then((result) => {
+  mounted() {
+    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=08bc2842c191fdd892778763300bf76e').then((result) => {
             this.cards = result.data.results;
+        });
+        axios.get('https://api.themoviedb.org/3/tv/popular?api_key=08bc2842c191fdd892778763300bf76e').then((result) => {
+            this.cardstv = result.data.results;
+        });
+  },
+    methods: {
+      searchInput (movieName) {
+        axios.get('https://api.themoviedb.org/3/search/movie',{
+          params: {
+            api_key: '08bc2842c191fdd892778763300bf76e',
+            query: movieName
+          }
+        }).then((result) => {
+            this.cards = result.data.results;
+        }),
+        axios.get('https://api.themoviedb.org/3/search/tv',{
+          params: {
+            api_key: '08bc2842c191fdd892778763300bf76e',
+            query: movieName
+          }
+        }).then((result) => {
+            this.cardstv = result.data.results;
         })
+      }
     }
 }
 </script>

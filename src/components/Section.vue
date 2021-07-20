@@ -1,9 +1,12 @@
 <template>
   <div class="main-box">
+      <h1 class="ms-5">{{title}}</h1>
     <div class="cards-box">
       <Card v-for="card in cards" :key="card.id"
       :title="card.title"
+      :name="card.name"
       :original_title="card.original_title"
+      :original_name="card.original_name"
       :poster_path="card.poster_path" 
       :original_language="card.original_language" 
       :vote_average="card.vote_average" 
@@ -20,7 +23,8 @@ export default {
         Card
     },
     props: {
-        cards: Array
+        cards: Array,
+        title: String
     }
 }
 </script>
@@ -28,13 +32,12 @@ export default {
 <style lang="scss">
   .main-box {
     width: 100%;
-    height: 90vh;
-    background: #1B1B2A;
-    padding-top: 150px;
+    padding-top: 50px;
   }
   .cards-box {
     width: 95%;
     margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
   }
 </style>
